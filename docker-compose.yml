@@ -1,0 +1,31 @@
+version: '3.3'
+
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'pass'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3306:3306'
+    expose:
+      # opens 3306 on container
+      - '3306'
+    volumes:
+      - ./data:/docker-entrypoint-initdb.d
+      - ./data:/var/lib/mysql
+  web:
+    image: php:7.2.2-apache
+    container_name: php_web
+    depends_on:
+      - db
+    volumes: 
+      - ./www/:/var/www/html
+    ports:
+      - '8100:80'
+    stdin_open: true
+    tty: true
