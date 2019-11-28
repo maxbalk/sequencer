@@ -1,0 +1,23 @@
+.container {
+    margin: 100px auto;
+    flex-direction: row;
+    height: 100px;
+    width: 600px;
+    border: 2px solid black;
+}
+
+#keyboard{
+    display: flex;
+    flex-direction: row;
+    height: 100px;
+}
+
+.key {
+    line-height: 30px;
+    height: auto;
+    flex-grow: 1;
+    background-color: ivory;
+    text-align: center;
+    margin: 4px 6px;
+    box-shadow: 5px 5px 5px #888888;
+}
