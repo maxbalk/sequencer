@@ -1,23 +1,56 @@
 .container {
     margin: 100px auto;
-    flex-direction: row;
-    height: 100px;
+    height: auto;
     width: 600px;
-    border: 2px solid black;
 }
 
-#keyboard{
+.layers {
+    height: 300px;
+    width: auto;
+    border: 2px solid black;
+    margin: 5px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.keyboard {
     display: flex;
     flex-direction: row;
-    height: 100px;
+    height: 160px;
 }
 
-.key {
+.whiteKey {
+    z-index: 0;
     line-height: 30px;
     height: auto;
     flex-grow: 1;
     background-color: ivory;
     text-align: center;
-    margin: 4px 6px;
+    margin: 4px 2px;
     box-shadow: 5px 5px 5px #888888;
+    border: 2px solid beige;
+}
+.whiteKey[data-pressed="true"]{
+    background-color: beige;
+}
+.blackKey {
+    z-index: 1;
+    height: 80%;
+    background-color: black;
+    color: ivory;
+    flex-grow: 0.1;
+}
+.blackKey[data-pressed="true"]{
+    background-color: darkgray;
+}
+.layer {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.partial {
+    flex-grow: 1;
+    background-color: lightgray;
+    border: 1px solid white;
 }
