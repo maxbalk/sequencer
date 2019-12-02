@@ -1,15 +1,15 @@
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
-let oscList = [];
-let oscList1 = [];
+let oscList = [];   //live playing
+let oscList1 = [];  //playback
 let rhythms = [];
 let tempo = 120;
-const lookahead = 25.0;
+const lookahead = 25;
 const scheduleAhead = 0.1;
 let currentNote = 0;
 let nextNoteTime = 0.0;
 let timerID;
-let musicLength = 32;
+let musicLength = 32; //number of partials
 let recording = false;
 let playing = false;
 let firstNote = false;
@@ -21,14 +21,18 @@ let controls = {
     'd':[],
     'f':[],
     't':[],
+    'g':[],
+    'y':[],
+    'h':[],
+    'u':[],
     'j':[],
-    'i':[],
     'k':[],
     'o':[],
     'l':[],
+    'p':[],
     ';':[]
 }
-let octave = [
+let notes = [
     {
         name: "C",
         frequency: 261.6256
@@ -80,6 +84,22 @@ let octave = [
     {
         name: "C",
         frequency: 523.2511
+    },
+    {
+        name: "C#",
+        frequency: 554.3653
+    },
+    {
+        name: "D",
+        frequency: 587.3295
+    },
+    {
+        name: "D#",
+        frequency: 622.2540
+    },
+    {
+        name: "E",
+        frequency: 659.2551
     }
 ];
 function initRhythms(){
@@ -95,8 +115,8 @@ function nextNote(){
         currentNote = 0;
     }
 }
-function playNote(beatNumber){
-    for(let note of octave){
+function playNote(){
+    for(let note of notes){
         if(rhythms[currentNote].includes(note)){
             notePlaying(note);
         } else {
@@ -117,7 +137,7 @@ function record(){
 }
 function playButton(){
     if(playing){
-        for(let note of octave){
+        for(let note of notes){
             noteNotPlaying(note);
         }
         window.clearTimeout(timerID);
@@ -135,7 +155,13 @@ function playButton(){
 }
 function looper(){
     while(nextNoteTime < audioCtx.currentTime + scheduleAhead){
-        console.dir(rhythms[currentNote]);
+        if(recording){
+            Object.keys(controls).forEach(function(key){
+                if(controls[key]['pressed']){
+                    rhythms[currentNote].push(controls[key]);
+                }
+            });
+        } 
         if(playing){
             playNote(currentNote);
         }
@@ -145,10 +171,11 @@ function looper(){
 }
 document.addEventListener("keydown", function(event){
     if(controls[event.key]){
+        if(!controls[event.key]['pressed']){
+            controls[event.key]['pressed'] = true;
+            notePressed(controls[event.key]);
+        }
         if(recording){
-            if(!rhythms[currentNote].includes(controls[event.key])){
-                rhythms[currentNote].push(controls[event.key]);
-            }
             if(firstNote){
                 nextNoteTime = audioCtx.currentTime;
                 currentNote = 0;
@@ -156,20 +183,17 @@ document.addEventListener("keydown", function(event){
                 looper();
             }  
         } 
-        notePressed(controls[event.key]);
     }
 });
 document.addEventListener("keyup", function(event){
-    if(controls[event.key]){
-        noteReleased(controls[event.key]);  
+    let note = controls[event.key];
+    if(note){
+        noteReleased(note);
     }
 });
 function notePressed(note){
-    if(!note['pressed']){
-        note['pressed'] = true;
-        oscList[note.frequency] = playTone(note.frequency);
-        document.getElementById(note.frequency).dataset["pressed"] = "true";
-    }
+    oscList[note.frequency] = playTone(note.frequency);
+    document.getElementById(note.frequency).dataset["pressed"] = "true";
 }
 function notePlaying(note){
     if(!note['playing']){
@@ -201,23 +225,44 @@ function playTone(frequency){
     return osc;
 }
 window.addEventListener("load", function(){
-    generateKeys();
+    setupKeys();
+    initRhythms();
+    setupLayers();
 });
-function generateKeys(){
+function setupKeys(){
+    let rightBlack = ['C','D','F','G','A'];
     let keyboard = document.querySelector(".keyboard");
     Object.keys(controls).forEach(function(key, i){
-        controls[key] = octave[i];
-        let keyEl = document.createElement("div");
-        let labelEl = document.createElement("div");
+        controls[key] = notes[i];
+        let keyEl = document.createElement("li");
+        let labelEl = document.createElement("p");
         labelEl.innerHTML = key;
-        keyEl.innerHTML = controls[key].name;
         if(controls[key].name.length == 1){
             keyEl.className = "whiteKey";
+            if(rightBlack.includes(controls[key].name)){
+                keyEl.dataset['rightBlack'] = 'true';
+            }
         } else {
             keyEl.className = "blackKey";
         }
+        if(controls[key].name)
         keyEl.id = controls[key].frequency;
-        keyEl.appendChild(labelEl);
+        keyEl.append(labelEl);
         keyboard.appendChild(keyEl);
     });
+}
+function setupLayers(){
+    let layers = document.querySelector(".layers");
+    for(let note of notes){
+        let sequence = document.createElement('div');
+        sequence.className = "sequence ";  
+        sequence.classList += note.frequency;
+        layers.appendChild(sequence);
+        for(let [i, rhythm] of rhythms.entries()){
+            let partial = document.createElement('div');
+            partial.className = "partial ";
+            partial.classList += i;
+            sequence.appendChild(partial);
+        }
+    }
 }

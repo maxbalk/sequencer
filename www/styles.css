@@ -1,56 +1,79 @@
-.container {
-    margin: 100px auto;
-    height: auto;
-    width: 600px;
+ul {
+    height: 100px;
+    display: inline-block
+}
+
+li { 
+    list-style: none;
+    float: left;
+    padding: 80px 0 0 0;
+    text-align: center;
+    position: relative;
+    margin: 0;
+}
+
+.mainContainer {
+    margin: 80px auto;
+    height: 700px;
+    width: 1000px;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: slategray;
+}
+
+div {
+    text-align: center;
 }
 
 .layers {
-    height: 300px;
-    width: auto;
+    height: 400px;
+    width: 900px;
     border: 2px solid black;
-    margin: 5px auto;
+    margin: 50px auto 5px;
     display: flex;
     flex-direction: column;
+    background-color: gray;
 }
-
-.keyboard {
+.sequence{
+    flex-grow: 1;
     display: flex;
     flex-direction: row;
-    height: 160px;
+    background-color: gray;
+    border-collapse: collapse;
 }
-
-.whiteKey {
-    z-index: 0;
-    line-height: 30px;
-    height: auto;
-    flex-grow: 1;
-    background-color: ivory;
-    text-align: center;
-    margin: 4px 2px;
-    box-shadow: 5px 5px 5px #888888;
-    border: 2px solid beige;
-}
-.whiteKey[data-pressed="true"]{
-    background-color: beige;
-}
-.blackKey {
-    z-index: 1;
-    height: 80%;
-    background-color: black;
-    color: ivory;
-    flex-grow: 0.1;
-}
-.blackKey[data-pressed="true"]{
-    background-color: darkgray;
-}
-.layer {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-}
-
 .partial {
     flex-grow: 1;
     background-color: lightgray;
-    border: 1px solid white;
+    margin: 1px;
+}
+
+.whiteKey {
+    height: 100%;
+    width: 4em;
+    z-index: 1;
+    line-height: 30px;
+    background-color: ivory;
+    box-shadow: 5px 5px 5px #888888;
+    margin: 0 19px 0 -18px;
+    border-radius: 0 0 5px 5px;
+    box-shadow: inset 0 0 9px lightgray;
+}
+.whiteKey[data-right-black="true"]{
+    margin: 0 1px 0 -18px;
+}
+.whiteKey[data-pressed="true"]{
+    box-shadow: inset 0 0 18px darkgray;
+}
+.blackKey {
+    height: 50%;
+    width: 36px;
+    z-index: 2;
+    background-color: rgba(35, 37, 37, 0.979);
+    color: ivory;
+    margin: 0 0 0 -18px;
+    border-radius: 0 0 4px 4px;
+    padding: 60px 0 0 0;
+}
+.blackKey[data-pressed="true"]{
+    box-shadow: inset 1px -12px 12px -2px gray;
 }
