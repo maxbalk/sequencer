@@ -1,9 +1,14 @@
 <?php
-define("ROOT",$_SERVER["DOCUMENT_ROOT"]);
-define("ROOT2", realpath(__DIR__ . "/../"));
-$conf = parse_ini_file(ROOT2.'/dbconfig.ini');
-require_once(ROOT2.'/adapter.php');
-if($_GET['']){
-    include('views/app.html');
+define("ROOT", realpath(__DIR__ . "/../"));
+require_once(ROOT.'/model.php');
+require_once('views/app.php');
+require_once('models/user.php');
+
+$homepage = new appPage();
+
+$login = empty($_POST['action']) ? '' : $_POST['action'];
+if($login = 'login'){
+    $user = new User();
+    $user->handleLogin();
 }
-echo($conf);
+$homepage->build();

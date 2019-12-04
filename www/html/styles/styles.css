@@ -1,0 +1,11 @@
+div {
+    text-align: center;
+}
+.mainContainer {
+    margin: 3em auto;
+    height: 45em;
+    width: 65em;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: slategray;
+}

@@ -1,11 +1,11 @@
 <?php
-abstract class Adapter{
+abstract class Model{
 
-    protected $conn;
+    protected $pdo;
 
     function __construct(){
-        $config = parse_ini_file(ROOT.'/config/dbconfig.ini');
-        $this->conn = $this->connect($config);
+        $config = parse_ini_file(ROOT.'/dbconfig.ini');
+        $this->pdo = $this->connect($config);
     }
 
     private function connect($config){

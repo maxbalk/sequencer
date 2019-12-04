@@ -3,11 +3,9 @@ version: '3.3'
 services:
   db:
     image: mysql:5.7
+    container_name: sequencerDB
     restart: always
     environment:
-      MYSQL_DATABASE: test_db
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'pass'
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
       - '3306:3306'
@@ -19,6 +17,7 @@ services:
   web:
     image: php:7.2.2-apache
     container_name: php_web
+    build: ./php_web
     depends_on:
       - db
     volumes: 
