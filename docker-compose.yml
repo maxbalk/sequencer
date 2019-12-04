@@ -22,7 +22,7 @@ services:
     depends_on:
       - db
     volumes: 
-      - ./www/:/var/www/html
+      - ./www/:/var/www/
     ports:
       - '8100:80'
     stdin_open: true
