@@ -1,6 +1,6 @@
 ul {
-    height: 6em;
-    display: inline-block
+    height: 10em;
+    display: inline-block;
 }
 li { 
     list-style: none;
@@ -11,6 +11,10 @@ li {
     margin: 0;
 }
 
+.buttonContainer {
+    margin: 1em;
+}
+
 .noteLabel { 
     width: 1.5em;
     border-right: 1px solid black;
@@ -19,7 +23,7 @@ li {
 }
 .layers {
     overflow: auto;
-    height: 24em;
+    height: 30em;
     width: 60em;
     border: 2px solid black;
     margin: 50px auto 5px;
@@ -65,7 +69,7 @@ li {
     box-shadow: inset 0 0 18px darkgray;
 }
 .blackKey {
-    height: 50%;
+    height: 60%;
     width: 36px;
     z-index: 2;
     background-color: rgba(35, 37, 37, 0.979);

@@ -1,8 +1,10 @@
 <?php
 define("ROOT", realpath(__DIR__ . "/../"));
-require_once(ROOT.'/model.php');
-require_once('views/app.php');
+require_once('model.php');
 require_once('models/user.php');
+require_once('views/view.php');
+require_once('views/app.php');
+require_once('views/about.php');
 
 $homepage = new appPage();
 
