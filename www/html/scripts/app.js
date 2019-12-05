@@ -130,9 +130,10 @@ function playNote(){
         }
     }
 }
-function record(){
+function record(button){
     window.clearTimeout(timerID);
     if(!recording){
+        button.innerHTML = "stop recording"
         for(let note of notes){
             noteNotPlaying(note);
         }
@@ -144,15 +145,17 @@ function record(){
         recording = true;
         playing = false;
     } else {
+        button.innerHTML = "start recording";
         for(let note of notes){
             noteNotPlaying(note);
         }
         recording = false;
     }
 }
-function playButton(){
+function playButton(button){
     window.clearTimeout(timerID);
     if(playing){
+        button.innerHTML = "start playback";
         for(let note of notes){
             noteNotPlaying(note);
         }
@@ -161,6 +164,7 @@ function playButton(){
         clearPartials();
         drawCurrent();
     } else {
+        button.innerHTML = "stop playback";
         nextNoteTime = audioCtx.currentTime;
         playing = true;
         looper();
@@ -252,7 +256,7 @@ function noteNotPlaying(note){
 function playTone(frequency){
     let osc = audioCtx.createOscillator();
     osc.connect(audioCtx.destination);
-    osc.type = 'triangle';
+    //osc.type = 'triangle';
     osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
     osc.start(); 
     return osc;

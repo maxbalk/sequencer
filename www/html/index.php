@@ -1,16 +1,25 @@
 <?php
 define("ROOT", realpath(__DIR__ . "/../"));
-require_once('model.php');
+require_once('models/model.php');
 require_once('models/user.php');
 require_once('views/view.php');
-require_once('views/app.php');
-require_once('views/about.php');
 
-$homepage = new appPage();
+error_reporting(E_ALL);
 
-$login = empty($_POST['action']) ? '' : $_POST['action'];
-if($login = 'login'){
-    $user = new User();
-    $user->handleLogin();
+session_start();
+$loggedIn = empty($_SESSION['loggedin']) ? false : $_SESSION['loggedin'];
+
+$route = empty($_POST['route']) ? '' : $_POST['route'];
+if($route == 'loginPage'){
+    require_once('views/login.php');
+    $loginPage = new loginPage();
+    $loginPage->build();
+} elseif($route == 'aboutPage'){
+    require_once('views/about.php');
+    $aboutPage = new aboutPage();
+    $aboutPage->build();
+} elseif($route == ''){
+    require_once('views/app.php');
+    $homepage = new appPage();
+    $homepage->build();
 }
-$homepage->build();
