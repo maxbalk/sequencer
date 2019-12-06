@@ -11,7 +11,7 @@ div {
 }
 .mainContainer {
     margin: 3em auto;
-    height: 55em;
+    height: auto;
     width: 70em;
     border: 2px solid black;
     border-radius: 20px;
@@ -19,7 +19,6 @@ div {
 }
 
 .left {
-    display: block;
-    float: left;
+    display: relative;
     margin: 1em 0 0 1em;
 }

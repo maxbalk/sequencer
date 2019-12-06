@@ -1,0 +1,20 @@
+
+.formContainer{
+    height: 30em;
+    width: 60em;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-content: center;
+    margin: auto;
+}
+#loginForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.formContainer * {
+    align-self: center;
+    margin: 5px;
+    width: 20em;
+}

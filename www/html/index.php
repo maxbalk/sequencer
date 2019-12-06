@@ -8,6 +8,7 @@ error_reporting(E_ALL);
 
 session_start();
 $loggedIn = empty($_SESSION['loggedin']) ? false : $_SESSION['loggedin'];
+$action = empty($_POST['action']) ? '' : $_POST['action'];
 
 $route = empty($_POST['route']) ? '' : $_POST['route'];
 if($route == 'loginPage'){
@@ -18,8 +19,13 @@ if($route == 'loginPage'){
     require_once('views/about.php');
     $aboutPage = new aboutPage();
     $aboutPage->build();
+} elseif($route == 'doLogin'){
+    $user = new User();
+    $user->handleLogin();
 } elseif($route == ''){
+    $user = new User();
+    $user->createUser('test1', 'pass');
     require_once('views/app.php');
     $homepage = new appPage();
-    $homepage->build();
+    $homepage->build($loggedIn);
 }

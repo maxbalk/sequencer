@@ -3,39 +3,48 @@
 class User extends Model{
 
     public function handleLogin(){
-        var_dump($this->pdo);
+       // var_dump($this->pdo);
         $username = empty($_POST['username']) ? '' : $_POST['username'];
         $password = empty($_POST['password']) ? '' : $_POST['password'];
-        if(authUser($username, $password)){
-
+        if($this->authUser($username, $password)){
+            $_SESSION['loggedin'] = $username;
+            header("Location: /");
+        } else {
+            echo "incorrect username or password";
         }
     }
 
     protected function authUser($user, $pass){
-        $pass = password_hash($pass, PASSWORD_DEFAULT);
-        $result = qGetUser($user, $pass);
+        $pass = sha1($pass);
+        $result = $this->qGetUser($user, $pass);
         if($result){
-            var_dump($result);
+            return true;
+        } else { 
+            return false;
         }
-
     }
 
     protected function qGetUser($user, $pass){
         $query = $this->pdo->prepare(
             "SELECT username, pass
              FROM appusers a
-             WHERE username = ? 
+             WHERE username = ?
              AND pass = ?"
         );
-        return $query->execute($user, $pass);
+        $query->execute([$user, $pass]);
+        $result =  $query->fetch(PDO::FETCH_ASSOC);
+        return $result;
     }
 
+
+    //used these during developement to create test user with hashed password
     public function createUser($user, $pass){
-        $pass = password_hash($pass, PASSWORD_DEFAULT);
+        $pass = password_hash($pass, PASSWORD_BCRYPT);
         $result = $this->qCreateUser($user, $pass);
-        if($result){}
+        if($result){
+            header("Location: /");
+        }
     }
-
     private function qCreateUser($user, $pass){
         $query = $this->pdo->prepare(
             "INSERT INTO appusers (username, pass)
@@ -43,8 +52,5 @@ class User extends Model{
         );
         return $query->execute([$user, $pass]);
     }
-
-
-
 
 }

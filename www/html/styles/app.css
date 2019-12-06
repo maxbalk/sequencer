@@ -22,7 +22,6 @@ li {
     text-align: left;
 }
 .layers {
-    overflow: auto;
     height: 30em;
     width: 60em;
     border: 2px solid black;
@@ -80,5 +79,14 @@ li {
 }
 .blackKey[data-pressed="true"]{
     box-shadow: inset 1px -12px 12px -2px gray;
+}
+
+#loopName {
+    width: 200px;
+    display: inline-block;
+}
+
+.inputsGroup * {
+    margin: 5px auto;
 }
 

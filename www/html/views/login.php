@@ -10,8 +10,17 @@ class loginPage extends View {
         <form  display="hidden">
             <input type="hidden" name="route" value="homePage">
         </form>
+        <br>
         <div>
-            <form id=""></form>
+            <div class="formContainer">
+                <form id="loginForm" method="post">
+                    <input type="hidden" name="route">
+                    <input type="text" name="username" placeholder="enter username">
+                    <input type="text" name="password" placeholder="enter password">
+                </form>
+                <button onclick="processForm('doLogin')" class="btn btn-light">Log in</button>
+                <div id="displayArea"></div>
+            </div>
         </div>
     <?php
         $this->getContent($stylesheet, $script);
