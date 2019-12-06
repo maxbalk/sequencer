@@ -9,5 +9,6 @@ function processForm(route){
         }
         el.value = encodeURIComponent(el.value);
     }
+    form.action = "?route="+route;
     form.submit();
 }

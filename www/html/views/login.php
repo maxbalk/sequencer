@@ -1,6 +1,6 @@
 <?php
 class loginPage extends View {
-    public function build()
+    public function build($error)
     {
         $stylesheet = "styles/login.css";
         $script = "scripts/login.js";
@@ -19,7 +19,7 @@ class loginPage extends View {
                     <input type="text" name="password" placeholder="enter password">
                 </form>
                 <button onclick="processForm('doLogin')" class="btn btn-light">Log in</button>
-                <div id="displayArea"></div>
+                <div id="displayArea"><?= $error ?></div>
             </div>
         </div>
     <?php

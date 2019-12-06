@@ -1,6 +1,11 @@
 <?php
 
-class User extends Model{
+class User extends Model {
+
+    public function handleLogout(){
+        $_SESSION = array();
+        session_destroy();
+    }
 
     public function handleLogin(){
        // var_dump($this->pdo);
@@ -8,13 +13,13 @@ class User extends Model{
         $password = empty($_POST['password']) ? '' : $_POST['password'];
         if($this->authUser($username, $password)){
             $_SESSION['loggedin'] = $username;
-            header("Location: /");
+            header("Location: /?route=home");
         } else {
-            echo "incorrect username or password";
+            header("Location: /?route=loginPage&error=incorrect");
         }
     }
 
-    protected function authUser($user, $pass){
+    private function authUser($user, $pass){
         $pass = sha1($pass);
         $result = $this->qGetUser($user, $pass);
         if($result){
@@ -24,7 +29,7 @@ class User extends Model{
         }
     }
 
-    protected function qGetUser($user, $pass){
+    private function qGetUser($user, $pass){
         $query = $this->pdo->prepare(
             "SELECT username, pass
              FROM appusers a

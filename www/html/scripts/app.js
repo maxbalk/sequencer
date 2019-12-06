@@ -104,8 +104,26 @@ let notes = [
     }
 ];
 function saveLoop(){
-    //let myJson = JSON.stringify(rhythms);
-    console.dir(rhythms);
+    let myJson = JSON.stringify(rhythms);
+    let f = document.getElementById('loopToSave');
+    let da = document.getElementById('displayArea');
+    for(let el of f.elements){
+        if(el.value){
+            if(rhythms[0].length != 0){
+                $.post("http://localhost/service.php?action=saveSequence", {
+                    "sequence": myJson,
+                    "loopName": $("#loopName").val()
+                }, function(data){
+                    da.innerHTML = data;
+                });
+            } else {
+                da.innerHTML = "loop cannot be empty";
+            }
+        } else {
+            da.innerHTML = "please enter a sequence name to save";
+        }
+    }
+    console.dir(rhythms[0].length);
 }
 function initRhythms(){
     for(let i=0; i<musicLength; i++){

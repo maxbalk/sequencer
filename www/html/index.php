@@ -8,13 +8,12 @@ error_reporting(E_ALL);
 
 session_start();
 $loggedIn = empty($_SESSION['loggedin']) ? false : $_SESSION['loggedin'];
-$action = empty($_POST['action']) ? '' : $_POST['action'];
-
-$route = empty($_POST['route']) ? '' : $_POST['route'];
+$route = empty($_GET['route']) ? '' : $_GET['route'];
 if($route == 'loginPage'){
     require_once('views/login.php');
     $loginPage = new loginPage();
-    $loginPage->build();
+    $error = empty($_GET['error']) ? '' : "incorrect username or password";
+    $loginPage->build($error);
 } elseif($route == 'aboutPage'){
     require_once('views/about.php');
     $aboutPage = new aboutPage();
@@ -22,9 +21,11 @@ if($route == 'loginPage'){
 } elseif($route == 'doLogin'){
     $user = new User();
     $user->handleLogin();
-} elseif($route == ''){
+} elseif($route == 'logout'){
     $user = new User();
-    $user->createUser('test1', 'pass');
+    $user->handleLogout();
+    header("Location: /");
+} elseif($route == '' || $route == 'home'){
     require_once('views/app.php');
     $homepage = new appPage();
     $homepage->build($loggedIn);
