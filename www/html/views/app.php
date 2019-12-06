@@ -18,6 +18,14 @@ class appPage extends View
                     </form>
                     <div onclick="saveLoop()" class="btn btn-light">save current loop</div>
                     <div onclick="navigate('logout')" class="btn btn-light">log out</div>
+                    <div class="dropdown">
+                        <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            my saved loops
+                        </button>
+                        <div id="loopList" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            
+                        </div>
+                    </div>
                 </div>
         <? } ?>
                 <div id="displayArea"></div>
@@ -33,6 +41,9 @@ class appPage extends View
                 <div class="keyboardContainer">
                     <ul class="keyboard"></ul>
                 </div>
+        <?php if($loggedIn){ ?>
+            <script type="text/javascript">getLoops();</script>
+        <? } ?>
     <?php
         $this->getContent($stylesheet, $script);
     }

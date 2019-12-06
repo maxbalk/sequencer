@@ -37,7 +37,7 @@ class User extends Model {
              AND pass = ?"
         );
         $query->execute([$user, $pass]);
-        $result =  $query->fetch(PDO::FETCH_ASSOC);
+        $result = $query->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
 

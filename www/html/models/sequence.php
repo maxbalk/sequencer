@@ -14,4 +14,22 @@ class Sequence extends Model {
         return $query->execute([$s, $n, $u]);
     }
 
+    public function getSequences($user){
+        return $this->qGetSequences($user);
+    }
+
+    private function qGetSequences($u){
+        $query = $this->pdo->prepare(
+            "SELECT loopname
+             FROM loops
+             WHERE username = ?"
+        );
+        $query->execute([$u]);
+        $names = array();
+        while($results = $query->fetch(PDO::FETCH_ASSOC)){
+            array_push($names, $results);
+        }
+        return $names;
+    }
+
 }

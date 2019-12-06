@@ -103,6 +103,28 @@ let notes = [
         frequency: 659.2551
     }
 ];
+function loadLoop(loop){
+    console.dir(loop);
+}
+function getLoops(){
+    let da = document.getElementById('displayArea');
+    let list = document.getElementById('loopList');
+    console.dir("getting loops");
+    $.get("http://localhost/service.php?action=getSequences",
+    function(data){
+        let loops = JSON.parse(data);
+        for(let loop of loops){
+            let item = document.createElement('a');
+            item.className = "dropdown-item";
+            item.addEventListener("click", function(){
+                loadLoop(loop.loopname);
+            });
+            item.innerHTML = loop.loopname;
+            list.appendChild(item);
+            console.dir(loop.loopname);
+        }
+    });
+}
 function saveLoop(){
     let myJson = JSON.stringify(rhythms);
     let f = document.getElementById('loopToSave');
