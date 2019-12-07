@@ -1,7 +1,7 @@
 <?php
 abstract class View {    
     public function __construct(){
-        error_reporting(E_ALL - E_NOTICE);
+        //error_reporting(E_ALL - E_NOTICE);
         ob_start();     
     }
 
