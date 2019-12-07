@@ -12,7 +12,9 @@ class aboutPage extends View {
         </form>
         <br>
         <div>
-            this is the part where i link pictures and video
+            <img src="cookies.jpg">
+            <img src="mydudes.jpg">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/0rLjj52vtA4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     <?php
         $this->getContent($stylesheet, $script);
