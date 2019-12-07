@@ -139,7 +139,7 @@ function getLoops(){
         list.removeChild(list.firstChild);
     }
     console.dir("getting loops");
-    $.get(location.hostname+"/service.php?action=getSequences",
+    $.get(location+"/service.php?action=getSequences",
     function(data){
         let loops = JSON.parse(data);
         for(let loop of loops){
