@@ -20,15 +20,18 @@ function saveSequence($username){
     $content = $_POST['sequence'];
     if(strlen($content) == 769){
         print "empty";
+        return;
     } else {
         $name = $_POST['loopName'];
         $sequence = new Sequence();
         if($sequence->saveSequence($content, $name, $username)){
             print "sequence saved";
+            return;
         } else {
             print "there was an error saving the current sequence";
+            return;
         }
-    }  
+    }
 }
 
 function getSequences($username){
