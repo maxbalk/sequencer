@@ -166,7 +166,7 @@ function saveLoop(){
             if(rhythms[0].length != 0){
                 $.post(target, {
                     "sequence": JSON.stringify(rhythms),
-                    "loopName": $("#loopName").val()
+                    "loopName": encodeURIComponent($("#loopName").val())
                 }, function(data){
                     da.innerHTML = data;
                 });
@@ -196,11 +196,11 @@ function nextNote(){
 function playNote(){
     let c = rhythms[currentNote];
     for(let note of notes){
-            if(c.includes(note)){
-                notePlaying(note);
-            } else {
-                noteNotPlaying(note);
-            }  
+        if(c.includes(note)){
+            notePlaying(note);
+        } else {
+            noteNotPlaying(note);
+        }  
     }
 }
 function record(button){
