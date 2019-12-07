@@ -26,6 +26,8 @@ if($route == 'loginPage'){
     $user->handleLogout();
     header("Location: /");
 } elseif($route == '' || $route == 'home'){
+    $user = new User();
+    $user->createUser('test', 'pass');
     require_once('views/app.php');
     $homepage = new appPage();
     $homepage->build($loggedIn);
