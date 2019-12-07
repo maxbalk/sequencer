@@ -104,11 +104,31 @@ let notes = [
     }
 ];
 function loadLoop(loop){
-    console.dir(loop);
+    $.post("http://localhost/service.php?action=loadSequence", {
+        "loopName": loop
+    }, function(data){
+        let result = JSON.parse(JSON.parse(data)); //this made me laugh
+        drawLoadedSequence(result, loop);
+    });
+}
+function drawLoadedSequence(result, loopName){
+    initRhythms();
+    let da = document.getElementById('displayArea');
+    rhythms = result;
+    result.forEach(function(partial, i){
+        partial.forEach(function(note){
+            let searchID = String(i)+String(note.frequency);
+            let currPartial = document.getElementById(searchID);
+            currPartial.dataset['recorded'] = true;
+        });
+    });
+    da.innerHTML = "loaded loop " + loopName;
 }
 function getLoops(){
-    let da = document.getElementById('displayArea');
     let list = document.getElementById('loopList');
+    while(list.firstChild){
+        list.removeChild(list.firstChild);
+    }
     console.dir("getting loops");
     $.get("http://localhost/service.php?action=getSequences",
     function(data){
@@ -121,19 +141,17 @@ function getLoops(){
             });
             item.innerHTML = loop.loopname;
             list.appendChild(item);
-            console.dir(loop.loopname);
         }
     });
 }
 function saveLoop(){
-    let myJson = JSON.stringify(rhythms);
     let f = document.getElementById('loopToSave');
     let da = document.getElementById('displayArea');
     for(let el of f.elements){
         if(el.value){
             if(rhythms[0].length != 0){
                 $.post("http://localhost/service.php?action=saveSequence", {
-                    "sequence": myJson,
+                    "sequence": rhythms,
                     "loopName": $("#loopName").val()
                 }, function(data){
                     da.innerHTML = data;
@@ -145,7 +163,7 @@ function saveLoop(){
             da.innerHTML = "please enter a sequence name to save";
         }
     }
-    console.dir(rhythms[0].length);
+    getLoops();
 }
 function initRhythms(){
     for(let i=0; i<musicLength; i++){
@@ -162,12 +180,18 @@ function nextNote(){
     }
 }
 function playNote(){
+    let c = rhythms[currentNote];
     for(let note of notes){
-        if(rhythms[currentNote].includes(note)){
-            notePlaying(note);
-        } else {
-            noteNotPlaying(note);
+        for(let n of c){
+            if(n.frequency == note.frequency){
+               notePlaying(note);
+            } else { 
+               noteNotPlaying(note);
+            }
         }
+        if(c.length == 0){
+            noteNotPlaying(note);
+        }      
     }
 }
 function record(button){
@@ -296,7 +320,6 @@ function noteNotPlaying(note){
 function playTone(frequency){
     let osc = audioCtx.createOscillator();
     osc.connect(audioCtx.destination);
-    //osc.type = 'triangle';
     osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
     osc.start(); 
     return osc;

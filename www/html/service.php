@@ -37,7 +37,9 @@ function getSequences($username){
     print(json_encode($loops));
 }
 
-function loadSequence(){
+function loadSequence($username){
+    $loopName = $_POST['loopName'];
     $sequence = new Sequence();
-
+    $loop = $sequence->loadSequence($username, $loopName);
+    print(json_encode($loop['rhythms']));
 }

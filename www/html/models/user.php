@@ -8,7 +8,6 @@ class User extends Model {
     }
 
     public function handleLogin(){
-       // var_dump($this->pdo);
         $username = empty($_POST['username']) ? '' : $_POST['username'];
         $password = empty($_POST['password']) ? '' : $_POST['password'];
         if($this->authUser($username, $password)){

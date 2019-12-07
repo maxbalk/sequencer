@@ -32,4 +32,20 @@ class Sequence extends Model {
         return $names;
     }
 
+    public function loadSequence($user, $name){
+        return $this->qLoadSequence($user, $name);
+    }
+
+    private function qLoadSequence($u, $n){
+        $query = $this->pdo->prepare(
+            "SELECT rhythms
+             FROM loops
+             WHERE username = ?
+             AND loopname = ?"
+        );
+        $query->execute([$u, $n]);
+        $results = $query->fetch(PDO::FETCH_ASSOC);
+        return $results;
+    }
+
 }
