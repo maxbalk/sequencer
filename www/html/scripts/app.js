@@ -104,7 +104,7 @@ let notes = [
     }
 ];
 function loadLoop(loop){
-    $.post("http://localhost/service.php?action=loadSequence", {
+    $.post("http://"+window.location+"/service.php?action=loadSequence", {
         "loopName": loop
     }, function(data){
         let result = JSON.parse(JSON.parse(data)); //this made me laugh
@@ -139,7 +139,7 @@ function getLoops(){
         list.removeChild(list.firstChild);
     }
     console.dir("getting loops");
-    $.get("http://localhost/service.php?action=getSequences",
+    $.get("http://"+window.location+"/service.php?action=getSequences",
     function(data){
         let loops = JSON.parse(data);
         for(let loop of loops){
@@ -159,7 +159,7 @@ function saveLoop(){
     for(let el of f.elements){
         if(el.value){
             if(rhythms[0].length != 0){
-                $.post("http://localhost/service.php?action=saveSequence", {
+                $.post("http://"+window.location+"/service.php?action=saveSequence", {
                     "sequence": JSON.stringify(rhythms),
                     "loopName": encodeURIComponent($("#loopName").val())
                 }, function(data){
