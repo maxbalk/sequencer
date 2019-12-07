@@ -4,8 +4,6 @@ require_once('models/model.php');
 require_once('models/user.php');
 require_once('views/view.php');
 
-error_reporting(E_ALL);
-
 session_start();
 $loggedIn = empty($_SESSION['loggedin']) ? false : $_SESSION['loggedin'];
 $route = empty($_GET['route']) ? '' : $_GET['route'];
