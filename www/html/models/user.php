@@ -43,7 +43,7 @@ class User extends Model {
 
     //used these during developement to create test user with hashed password
     public function createUser($user, $pass){
-        $pass = password_hash($pass, PASSWORD_BCRYPT);
+        $pass = sha1($pass);
         $result = $this->qCreateUser($user, $pass);
         if($result){
             header("Location: /");

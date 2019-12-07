@@ -16,7 +16,7 @@ class loginPage extends View {
                 <form id="loginForm" method="post">
                     <input type="hidden" name="route">
                     <input type="text" name="username" placeholder="enter username">
-                    <input type="text" name="password" placeholder="enter password">
+                    <input type="password" name="password" placeholder="enter password">
                 </form>
                 <button onclick="processForm('doLogin')" class="btn btn-light">Log in</button>
                 <div id="displayArea"><?= $error ?></div>

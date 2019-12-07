@@ -114,7 +114,16 @@ function loadLoop(loop){
 function drawLoadedSequence(result, loopName){
     initRhythms();
     let da = document.getElementById('displayArea');
-    rhythms = result;
+    console.dir(result);
+    result.forEach(function(partial, i){
+        for(let record of partial){
+            for(let note of notes){
+                if(record.frequency == note.frequency){
+                    rhythms[i].push(note);
+                }
+            }
+        }
+    });
     result.forEach(function(partial, i){
         partial.forEach(function(note){
             let searchID = String(i)+String(note.frequency);
@@ -151,8 +160,8 @@ function saveLoop(){
         if(el.value){
             if(rhythms[0].length != 0){
                 $.post("http://localhost/service.php?action=saveSequence", {
-                    "sequence": rhythms,
-                    "loopName": $("#loopName").val()
+                    "sequence": JSON.stringify(rhythms),
+                    "loopName": encodeURIComponent($("#loopName").val())
                 }, function(data){
                     da.innerHTML = data;
                 });
@@ -182,16 +191,11 @@ function nextNote(){
 function playNote(){
     let c = rhythms[currentNote];
     for(let note of notes){
-        for(let n of c){
-            if(n.frequency == note.frequency){
-               notePlaying(note);
-            } else { 
-               noteNotPlaying(note);
+            if(c.includes(note)){
+                notePlaying(note);
+            } else {
+                noteNotPlaying(note);
             }
-        }
-        if(c.length == 0){
-            noteNotPlaying(note);
-        }      
     }
 }
 function record(button){
