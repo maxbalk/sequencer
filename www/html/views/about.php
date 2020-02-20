@@ -12,7 +12,6 @@ class aboutPage extends View {
         </form>
         <br>
         <div>
-            this is the part where i link pictures and video
         </div>
     <?php
         $this->getContent($stylesheet, $script);
