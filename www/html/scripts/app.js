@@ -104,7 +104,8 @@ let notes = [
     }
 ];
 function loadLoop(loop){
-    $.post(location.hostname+"/service.php?action=loadSequence", {
+    let target = "http://"+location.hostname+"/service.php?action=loadSequence";
+    $.post(target, {
         "loopName": loop
     }, function(data){
         let result = JSON.parse(JSON.parse(data)); //this made me laugh
@@ -114,7 +115,6 @@ function loadLoop(loop){
 function drawLoadedSequence(result, loopName){
     initRhythms();
     let da = document.getElementById('displayArea');
-    console.dir(result);
     result.forEach(function(partial, i){
         for(let record of partial){
             for(let note of notes){
@@ -134,26 +134,31 @@ function drawLoadedSequence(result, loopName){
     da.innerHTML = "loaded loop " + loopName;
 }
 function getLoops(){
+    let target = "http://"+location.hostname+"/service.php?action=getSequences";
     let list = document.getElementById('loopList');
     while(list.firstChild){
         list.removeChild(list.firstChild);
     }
     console.dir("getting loops");
-    $.get(location+"/service.php?action=getSequences",
+    $.get(target,
     function(data){
         let loops = JSON.parse(data);
-        for(let loop of loops){
-            let item = document.createElement('a');
-            item.className = "dropdown-item";
-            item.addEventListener("click", function(){
-                loadLoop(loop.loopname);
-            });
-            item.innerHTML = loop.loopname;
-            list.appendChild(item);
+        if(loops){
+            for(let loop of loops){
+                let item = document.createElement('a');
+                item.className = "dropdown-item";
+                item.addEventListener("click", function(){
+                    loadLoop(loop.loopname);
+                });
+                item.innerHTML = loop.loopname;
+                list.appendChild(item);
+            }
         }
     });
 }
 function saveLoop(){
+    let target = "http://"+location.hostname+"/service.php?action=saveSequence";
+    console.dir(location.hostname);
     let f = document.getElementById('loopToSave');
     let da = document.getElementById('displayArea');
     for(let el of f.elements){
@@ -195,7 +200,7 @@ function playNote(){
                 notePlaying(note);
             } else {
                 noteNotPlaying(note);
-            }
+            }  
     }
 }
 function record(button){
