@@ -4,8 +4,6 @@ require_once('models/model.php');
 require_once('models/user.php');
 require_once('views/view.php');
 
-error_reporting(E_ALL);
-
 session_start();
 $loggedIn = empty($_SESSION['loggedin']) ? false : $_SESSION['loggedin'];
 $route = empty($_GET['route']) ? '' : $_GET['route'];
@@ -23,8 +21,6 @@ if($route == 'loginPage'){
     $user->handleLogout();
     header("Location: /");
 } elseif($route == '' || $route == 'home'){
-   # $user = new User();
-   # $user->createUser('test', 'pass');
     require_once('views/app.php');
     $homepage = new appPage();
     $homepage->build($loggedIn);
